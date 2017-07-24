@@ -9,11 +9,11 @@ import org.im4java.core.IMOperation;
 import org.im4java.core.IdentifyCmd;
 
 public class DealCardImg200 {
-  private static final String db = "jdbc:sqlserver://zb.clschina.com:6433;DatabaseName=namecard";
+  private static final String db = "jdbc:sqlserver://192.168.8.4:1433;DatabaseName=namecard";
   private static final String username = "sa";
   private static final String password = "u8soft";
 
-  private static final String imageMagickPath = "C:/Program Files (x86)/ImageMagick-6.9.0-Q16";
+  private static final String imageMagickPath = "C:/Program Files (x86)/ImageMagick-6.3.9-Q16";
 
   public static void main(String [] args){
     Connection conn = null;
@@ -34,13 +34,13 @@ public class DealCardImg200 {
       }
 
       int count = 0;
-      File folder = new File("D:/workspace/dashangapi/files/cardimage");
+      File folder = new File("E:/apache/namecardmanager/webapps/ROOT/files/cardimage");
       File successFile = new File("successLog.txt");
       File errorFile = new File("errorLog.txt");
-      outSuccess = new BufferedWriter(new FileWriter(successFile, true));
-      outFail = new BufferedWriter(new FileWriter(errorFile, true));
+      outSuccess = new BufferedWriter(new FileWriter(successFile, false));
+      outFail = new BufferedWriter(new FileWriter(errorFile, false));
 
-      stmt = conn.createStatement();
+	  stmt = conn.createStatement();
       String sql = "select * from card_image where status = 0 and charindex('_v1', imageName) <= 0";
       rs = stmt.executeQuery(sql);
       
@@ -52,14 +52,30 @@ public class DealCardImg200 {
        
         String originName = imageName.substring(0, imageName.lastIndexOf("."));
         String suffix = imageName.substring(imageName.lastIndexOf("."));
-        File originFile = new File(folder, originName + "_cut" + suffix);
-        if(!originFile.exists()){
+
+		File originFile = new File(folder, imageName);
+		File newFile = new File(folder, originName + "_v1" + suffix);
+		FileInputStream fi = new FileInputStream(originFile);
+		FileOutputStream fo = new FileOutputStream(newFile);
+		BufferedInputStream bis = new BufferedInputStream(fi);
+		BufferedOutputStream bos = new BufferedOutputStream(fo);
+		byte [] temp = new byte[1024];
+		int index = 0;
+		while((index = bis.read(temp)) != -1){
+			bos.write(temp, 0, index);
+		}
+		bos.close();
+		bis.close();
+		fo.close();
+		fi.close();
+
+        File originCutFile = new File(folder, originName + "_cut" + suffix);
+        if(!originCutFile.exists()){
           outFail.write(cardId + ", " + originName + ", not exists \r\n");
           continue;
         }
-        
-        File newFile = new File(folder, originName + "_v1_cut" + suffix);
-        makeThumbnail(originFile.getPath(), newFile.getPath(), 200, 200);
+        File newCutFile = new File(folder, originName + "_v1_cut" + suffix);
+        makeThumbnail(originCutFile.getPath(), newCutFile.getPath(), 200, 200);
 
         int num = conn.createStatement().executeUpdate(String.format(updateSqlFormat, originName + "_v1" + suffix, imageName, cardId));
         if(num != 1){
