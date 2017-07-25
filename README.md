@@ -12,7 +12,8 @@ linux下多个jar包用冒号分隔
 
 
 ### 小坑：
-目录下包含了jar包sunjce_provider.jar，该jar拷贝自
+目录下包含了jar包sunjce_provider.jar，该jar拷贝自{JAVA_HOME}\jre\lib\ext，而在jre中的这个包就会抛出异常。
+那么就干脆用jdk中的这个包替换掉jre中的这个包
 
 ### 最后
 有了这个经验，再也不用写jsp运行占用tomcat资源啦，也不用把臃肿的项目全部依赖掉啦
