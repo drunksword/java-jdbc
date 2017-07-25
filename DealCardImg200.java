@@ -9,9 +9,9 @@ import org.im4java.core.IMOperation;
 import org.im4java.core.IdentifyCmd;
 
 public class DealCardImg200 {
-  private static final String db = "jdbc:sqlserver://192.168.8.4:1433;DatabaseName=namecard";
-  private static final String username = "sa";
-  private static final String password = "u8soft";
+  private static final String db = "jdbc:sqlserver://127.0.0.1:1433;DatabaseName=testdb";
+  private static final String username = "**";
+  private static final String password = "**";
 
   private static final String imageMagickPath = "C:/Program Files (x86)/ImageMagick-6.3.9-Q16";
 
@@ -34,7 +34,7 @@ public class DealCardImg200 {
       }
 
       int count = 0;
-      File folder = new File("E:/apache/namecardmanager/webapps/ROOT/files/cardimage");
+      File folder = new File("E:/test/files/cardimage");
       File successFile = new File("successLog.txt");
       File errorFile = new File("errorLog.txt");
       outSuccess = new BufferedWriter(new FileWriter(successFile, false));
