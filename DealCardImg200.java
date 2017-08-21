@@ -25,6 +25,7 @@ public class DealCardImg200 {
     try{
       Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
       conn = DriverManager.getConnection(db, username, password);
+      //下面2个条件共同保证了while循环中update commit时，select返回的数据列表依然存在
       conn.setAutoCommit(false);
       conn.setHoldability(ResultSet.HOLD_CURSORS_OVER_COMMIT);
 
