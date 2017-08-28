@@ -1,6 +1,7 @@
 # java-jdbc
 
-完全不依赖IDE的java脚本程序,实现了jdbc连接sqlserver数据库，图片裁剪，文件读写等
+完全不依赖IDE的java脚本程序,实现了jdbc连接sqlserver数据库，图片裁剪，文件读写等。<br>
+更新了连接postgresql的方法，依赖postgresql-42.1.4.jar。代码修改为相应的注释部分
 
 ### 使用方法：
 ``` bash
