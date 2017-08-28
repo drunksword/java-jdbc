@@ -10,6 +10,7 @@ import org.im4java.core.IdentifyCmd;
 
 public class DealCardImg200 {
   private static final String db = "jdbc:sqlserver://127.0.0.1:1433;DatabaseName=testdb";
+  //private static final String db = "jdbc:postgresql://127.0.0.1:1433/testdb?stringtype=unspecified";
   private static final String username = "**";
   private static final String password = "**";
 
@@ -24,6 +25,7 @@ public class DealCardImg200 {
     BufferedWriter outFail = null;
     try{
       Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+      //Class.forName("org.postgresql.Driver");
       conn = DriverManager.getConnection(db, username, password);
       //下面2个条件共同保证了while循环中update commit时，select返回的数据列表依然存在
       conn.setAutoCommit(false);
